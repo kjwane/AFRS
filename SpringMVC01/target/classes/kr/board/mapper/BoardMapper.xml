@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="kr.board.mapper.BoardMapper"> 
+	<!--
+	namespace는 중복허용을 위해 씀
+	같은 파일명 중에서 .java의 경로를 적어주는 거임
+	-->
+	<!--
+		getLists의 메서드가 호출이 될 때 실행될 SQL query문을 여기다가 작성
+		그래서 select의 id와 BoardMapper의 인터페이스에서의 메서드와 이름이 같아야 함
+	-->
+	
+	<select id = "getLists" resultType = "kr.board.entity.Board">
+		select * from myboard order by idx desc
+	</select>
+	
+	<insert id ="boardInsert" parameterType="kr.board.entity.Board">
+		insert into myboard(title, content, writer)
+		values(#{title}, #{content}, #{writer})
+	</insert>
+
+	<!--
+		파라미터가 1개라서 parameterType="int" << 이걸 적어도 되지만 1개일 때는 생략이 가능함
+	-->
+	<select id="boardContent" parameterType="int" resultType="kr.board.entity.Board">
+		select * from myboard where idx = #{idx}
+	</select>
+
+	<delete id="boardDelete" parameterType="int">
+		delete from myboard where idx = #{idx}
+	</delete>
+
+	<update id="boardUpdate" parameterType="kr.board.entity.Board">
+		update myboard set title = #{title}, content = #{content}
+		where idx = #{idx}
+	</update>
+
+</mapper>
